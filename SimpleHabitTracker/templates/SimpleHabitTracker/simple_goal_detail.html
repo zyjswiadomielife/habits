@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<p>Tytuł: {{goal_object.title}}</p>
+<p>Autor: {{goal_object.author}}</p>
+<p>Opis: {{goal_object.body}}</p>
+<p>Czas trwania zadania: {{habit_object.start_at}} - {{habit_object.end_at}}</p>
+<p>Dołączeni użytkownicy:</p>
+<P>	{% for user in goal_object.joined.all %}
+    	<p>{{ user.username }}</p>
+  	{% endfor %}
+</P>
+<form id="joinform" name="joinform" action="{% url 'SimpleHabitTracker:simple_goal_detail' id=goal_object.id %}" method="POST">
+	{% csrf_token %}
+	{% if user.is_authenticated %}
+		{%if user in has_joined%}
+			<button type="submit" value="to view" id="leavebutton" name="leavebutton">Porzuć</button>
+		{%else%}
+			<button type="submit" value="to view" id="joinbutton" name="joinbutton">Dołącz</button>
+		{%endif%}
+	{%endif%}
+</form>
+
+<p><a href="{% url 'Goal:goals-list' %}">powrót do strony głównej</a></p>
+{%endblock%}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<p>Tytuł: {{goal_object.title}}</p>
+<p>Autor: {{goal_object.author}}</p>
+<p>Opis: {{goal_object.body}}</p>
+<p>Czas trwania zadania: {{habit_object.start_at}} - {{habit_object.end_at}}</p>
+<p>Dołączeni użytkownicy:</p>
+
+<P>	{%for instance in goal_realisation_obj %}
+		{%if instance.title == goal_object.title%}
+			<p>nazwa użytkownika: {{instance.participant}} zaliczone: {{instance.completed}} niezaliczone: {{instance.failed}} procent ukończenia: {{instance.percentage}}%</p>
+		{%endif%}
+  	{% endfor %}
+</P>
+
+{% if user.is_authenticated and user in has_joined %}
+	<h3>Zaznacz jeśli udało Ci się zrealizować cel na dziś {{user.username}}</h3>
+	<form id="progressform" name="progressform" action="{% url 'Goal:simple_goal_detail' id=goal_object.id %}" method="POST">
+		{% csrf_token %}
+		{%for remaining_day in days_list%}
+			{% if remaining_day == current_date %}
+				<p>{{ remaining_day }}	<input id='checkbox' type="checkbox" name="Check_completed"  value={{remaining_day}} unchecked ></p>
+			{% endif %}
+		{%endfor%}
+		<button type="submit" value="to view" id="progressbuton" name="progressbuton">Zatwierdź</button>
+	</form>
+{% else %}
+	{% if 'true' in refusal %}
+		<h3> Nie możesz drugi raz dołączyć do ukończonego zadania </h3>
+	{% else %}
+		<h3>Jeszcze nie dołączyłeś do tego zadania</h3>
+	{% endif %}
+{% endif %}
+<form id="joinform" name="joinform" action="{% url 'Goal:simple_goal_detail' id=goal_object.id %}" method="POST">
+	{% csrf_token %}
+	{% if user.is_authenticated %}
+		{%if user in has_joined%}
+			<button type="submit" value="to view" id="leavebutton" name="leavebutton">Porzuć</button>
+		{%else%}
+			<button type="submit" value="to view" id="joinbutton" name="joinbutton">Dołącz</button>
+		{%endif%}
+	{%endif%}
+</form>
+
+<p><a href="{% url 'Goal:goals-list' %}">powrót do strony głównej</a></p>
+{%endblock%}

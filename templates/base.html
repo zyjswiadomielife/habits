@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+	<title>Goal creation </title>
+</head>
+
+<body>
+	{% block content%}
+	{% endblock %}
+
+	    <!-- 1. Link Vue Javascript -->
+		<script src='https://unpkg.com/vue/dist/vue.js'></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha512-VZ6m0F78+yo3sbu48gElK4irv2dzPoep8oo9LEjxviigcnnnNvnTOJRSrIhuFk68FMLOpiNz+T77nNY89rnWDg==" crossorigin="anonymous"></script>
+		<!-- 2. Link VCalendar Javascript (Plugin automatically installed) -->
+		<script src='https://unpkg.com/v-calendar'></script>
+
+		<script type="application/Javascript">
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
+			
+			new Vue({
+			  el: '#app',
+			  delimiters: ['[[', ']]'],
+			  data: {
+				dates: [
+					new Date(),
+				],
+				habit:{
+						days: [],
+						slug: '',	
+					}
+			  },
+			  methods: {
+				addDays: function() {
+				this.habit.days = this.dates
+				axios.post('/habits/',this.habit)
+					.then((response) => {
+						console.log(response.data);
+					})
+					.catch((err) => {
+						this.loading = false;
+						console.log(err);
+					})
+				},
+			  }
+			})
+		  </script>
+</body>
+</html>

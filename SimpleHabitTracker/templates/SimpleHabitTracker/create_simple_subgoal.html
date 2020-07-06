@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{%block content%}
+<p>Tytuł: {{goal_object.title}}</p>
+<p>Autor: {{goal_object.author}}</p>
+<p>Opis: {{goal_object.body}}</p>
+
+
+
+<form method='POST'> {% csrf_token %}
+	<v-date-picker
+    mode='multiple'
+	v-model='dates'
+    />
+	<input type='submit' value='Save' id="createbutton" name="createbutton"/>
+	
+</form>
+
+{%endblock%}

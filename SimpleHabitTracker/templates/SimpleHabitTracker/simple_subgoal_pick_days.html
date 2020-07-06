@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{%block content%}
+
+<p>Tytuł: {{goal_object.title}}</p>
+<p>Autor: {{goal_object.author}}</p>
+<p>Opis: {{goal_object.body}}</p>
+<p>Goal time: {{habit_object.start_at}} - {{habit_object.end_at}}</p>
+
+<form id="streamform" name="streamform" action="{% url 'SimpleHabitTracker:pick_dates' %}" method="POST">
+	{% csrf_token %}
+	{%for day in days_list%}
+		<p>{{day}} 	<input id='checkbox' type="checkbox" name="Check"  value={{day}} checked ></p>
+	{%endfor%}
+
+	<button type="submit" value="to view" id="streambutton" name="streambutton">Save</button>
+</form>
+
+
+{%endblock%}

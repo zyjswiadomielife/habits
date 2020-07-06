@@ -1,0 +1,14 @@
+Django==2.1.5
+
+pytz==2018.9
+django-crispy-forms
+django-tinymce4-lite
+gunicorn
+psycopg2
+pillow
+django-autoslug
+django-appconf
+easy-thumbnails
+pyuploadcare
+djangorestframework
+django-extensions

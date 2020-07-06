@@ -1,0 +1,30 @@
+run.config:
+  engine: python
+  engine.config: 
+    runtime: python-3.6
+  extra_packages:
+    - nginx
+
+deploy.config:
+  extra_steps:
+    - python manage.py collectstatic --noinput --clear
+  before_live:
+    web.main:
+      - python manage.py migrate --fake-initial
+
+web.main:
+  start:
+    nginx: nginx -c /app/etc/nginx.conf
+    django: gunicorn -c /app/etc/gunicorn.py habit_tracker.wsgi
+  network_dirs:
+    data.storage:
+      - media
+
+data.storage: 
+  image: nanobox/unfs:0.9
+
+data.db:
+  image: nanobox/postgresql:9.5
+  config:
+    extensions:
+      - postgis

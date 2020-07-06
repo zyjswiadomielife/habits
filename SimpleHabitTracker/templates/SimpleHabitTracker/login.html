@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<h1>Nie jesteś zalogowany. Musisz być zalogowany żeby korzystać z tej funkcji.</h1>
+<p><a href="{% url 'Goal:goals-list' %}">powrót do strony głównej</a></p>
+
+{%endblock%}

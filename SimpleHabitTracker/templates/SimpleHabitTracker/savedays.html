@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="app">
+
+    <form v-on:submit.prevent="addDays()"> {% csrf_token %}
+        <input type="text" v-model="habit.slug">
+        <v-date-picker mode='multiple' v-model='dates' :masks="{ input: ['YYYY-MM-DD'], data: ['YYYY-MM-DD']}"/>
+    </v-date-picker>
+        <button type="submit">Zapisz</button>
+        
+    </form>
+</div>
+{% endblock %}
