@@ -1,6 +1,6 @@
 from django.db import models
 from Goal.models import Goal
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import JSONField
 
 class Habit(models.Model):
 	start_at = 		models.DateField(auto_now=False, auto_now_add=False, verbose_name="Początek", blank=True, null=True)
@@ -8,6 +8,3 @@ class Habit(models.Model):
 	slug = 			models.SlugField(max_length=255,)
 	days = 			models.TextField(default="")
 
-class DateList(models.Model):
-	datelist = models.ForeignKey(Habit, on_delete=models.CASCADE, blank=True, null=True)
-	
